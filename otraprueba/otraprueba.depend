@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1495942291 source:c:\e\progra\codeblocks project\otraprueba\analizador.c
+	"analizador.h"
+	"listase.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1495931317 c:\e\progra\codeblocks project\otraprueba\analizador.h
+
+1495931323 source:c:\e\progra\codeblocks project\otraprueba\main.c
+	"analizador.h"
+	"listase.h"
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+
+1494653558 c:\e\progra\codeblocks project\otraprueba\listase.h
+
+1494653558 source:c:\e\progra\codeblocks project\otraprueba\listase.c
+	"listase.h"
+	<stdlib.h>
+	<stdio.h>
+
