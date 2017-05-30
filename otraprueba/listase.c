@@ -3,15 +3,17 @@
 #include <stdio.h>
 int cima = 0;
 
-NodoL* crearnodo(char* d){
+NodoL* crearnodo(int cat, char* com, char* sen){
 	NodoL* nodo = (NodoL*)malloc(sizeof(NodoL));
-	nodo->dato = d;
+	nodo->categoria = cat;
+	nodo->comando = com;
+	nodo->sentencia = sen;
 	nodo->siguiente = NULL;
 	return nodo;
 }
 
-void insertarFinal(Lista* lista, char* d){
-	NodoL* nuevo = crearnodo(d);
+void insertarFinal(Lista* lista, int cat, char* com, char* sent){
+	NodoL* nuevo = crearnodo(cat, com, sent);
 	if(cima == 1){
 		NodoL* aux = lista->inicio;
 		while(aux->siguiente != NULL){
@@ -26,10 +28,19 @@ void insertarFinal(Lista* lista, char* d){
 
 void mostrarLista(Lista* lista){
 	NodoL* actual = lista->inicio;
-	char* linea;
+	int contador=0;
+	int cat;
+	char* com="";
+	char* sen="";
 	while(actual != NULL){
-		linea = actual->dato;
-		printf("[%s]->", linea);
+		cat = actual->categoria;
+		com = actual->comando;
+		sen = actual->sentencia;
+		printf("nodo %d:\n", contador);
+		printf("cate: %d - ", cat);
+		printf("coman: %s - ", com);
+		printf("senten: %s\n", sen);
+		contador++;
 		actual = actual->siguiente;
 	}
 }
