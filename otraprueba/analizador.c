@@ -17,7 +17,7 @@ correspondiente al comando ya previamente encontrado.
 */
 
 void analizar(){
-    //Lista* mi_lista = (Lista*)malloc(sizeof(Lista));
+    Lista* mi_lista = (Lista*)malloc(sizeof(Lista));
 
 	printf("Introduce linea de comando. (max. 200 carac.):\n");
     char linea[200];
@@ -28,9 +28,11 @@ void analizar(){
 	char* tipo="";
 	char* lexema="";
 	char* comando="";
-	char* parametro="";
+	char* sentencia="";
 	int categoria;
 	int caracter;
+    int otra_linea;
+    int correcto=0;
 
 	while(linea[pos] != NULL){
 	    caracter = linea[pos];
@@ -80,7 +82,9 @@ void analizar(){
                 caracter=tolower(caracter);
                 lexema=concat(lexema, &caracter);
                 estado=2;
-            }else if(caracter=='-'){
+            }else if(caracter=='-'||caracter=='&'){
+                //algunos comandos como %unit de mkdisk o &path de rmdisk utilizan &>
+                //para indicar que lo siguiente sera una sentencia
                 estado=2;
             }else if(caracter=='>'){
                 //comando escrito correctamente ej.: &size->32, &path->/home/.., etc.
@@ -88,6 +92,25 @@ void analizar(){
                 comando=concat(comando, lexema);
                 printf("variable comando: %s\n", comando);
                 lexema=limpiar();
+                estado=3;
+            }
+            break;
+        case 3:
+            if(isspace(caracter)){
+                //cuando encuentra un espacio indica que termino la sentencia
+                //ej.: &size->32 %unit...
+                sentencia=concat(sentencia, lexema);
+                printf("variable sentencia: %s\n", sentencia);
+                lexema=limpiar();
+                correcto=1;
+                insertarFinal(mi_lista, categoria, comando, sentencia);
+                comando=limpiar();
+                sentencia=limpiar();
+                estado=1;
+            }else{
+                //en este punto puede venir cualquier simbolo, letra o numero.
+                lexema=concat(lexema, &caracter);
+                estado=3;
             }
             break;
         default:
@@ -103,7 +126,11 @@ void analizar(){
 	    }
 	    pos++;
 	}
-
+    switch(correcto){
+    case 1:
+        mostrarLista(mi_lista);
+        break;
+    }
 }
 
 char* concat(char* destino, char* letra){
