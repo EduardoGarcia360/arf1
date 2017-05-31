@@ -32,14 +32,14 @@ int main()
         }
 */
     //}while(eleccion!=1);
-
+/*
     Lista* mi_lista = (Lista*)malloc(sizeof(Lista));
     insertarFinal(mi_lista, 1, "size", "32");
 	insertarFinal(mi_lista, 2, "unit","k");
 	insertarFinal(mi_lista, 1, "path", "c:/tugfa");
 	insertarFinal(mi_lista, 1, "name", "eltado.dsk");
 	mostrarLista(mi_lista);
-
-    //analizar();
+*/
+    analizar();
     return 0;
 }
