@@ -1,5 +1,6 @@
 #include "analizador.h"
 #include "listase.h"
+#include "mkdisk.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,7 +32,7 @@ void analizar(){
 	char* sentencia="";
 	int categoria;
 	int caracter;
-    int otra_linea;
+    int otra_linea=0;
     int correcto=0;
 
 	while(linea[pos] != NULL){
@@ -71,6 +72,9 @@ void analizar(){
             }else if(caracter=='%'){
                 categoria=2;
                 estado=2;
+            }else if(caracter=='\\'){
+                //caracter especial indicando que debe haber otra linea
+                estado=4;
             }else{
                 estado=99;
             }
@@ -93,12 +97,15 @@ void analizar(){
                 printf("variable comando: %s\n", comando);
                 lexema=limpiar();
                 estado=3;
+            }else{
+                estado=99;
             }
             break;
         case 3:
-            if(isspace(caracter)){
+            if(isspace(caracter)||caracter=='&'||caracter=='%'){
                 //cuando encuentra un espacio indica que termino la sentencia
                 //ej.: &size->32 %unit...
+                //puede venir asi: &size->32%unit&>M (con espacio o directamente con la otra sentencia)
                 sentencia=concat(sentencia, lexema);
                 printf("variable sentencia: %s\n", sentencia);
                 lexema=limpiar();
@@ -113,6 +120,15 @@ void analizar(){
                 estado=3;
             }
             break;
+        case 4:
+            if(caracter=='^'){
+                //se debe pedir otra linea
+                otra_linea=1;
+                correcto=1;
+            }else{
+                estado=99;
+            }
+            break;
         default:
             printf("Error al analizar cadena, comando desconocido.\n");
             estado=99;
@@ -122,6 +138,7 @@ void analizar(){
 	    //---------------- estado de error..
 	    if(estado==99){
             printf("Error al analizar la cadena formato no valido.\n");
+            correcto=0;
             break;
 	    }
 	    pos++;
@@ -129,6 +146,9 @@ void analizar(){
     switch(correcto){
     case 1:
         mostrarLista(mi_lista);
+        if(strcmp("mkdisk", tipo)==0){
+            proceso_mkdisk(mi_lista, otra_linea);
+        }
         break;
     }
 }
