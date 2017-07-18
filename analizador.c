@@ -5,7 +5,7 @@
 #include "utilidades.h"
 #include "analizador.h"
 
-void analizador_general(int caracter);
+void analizador_general(char linea[]);
 
 void analizar_archivo(){
     char ruta[200];
@@ -20,17 +20,24 @@ void analizar_archivo(){
     }else{
         int caracter;
         printf("\nLeyendo el archivo...\n");
+        //leer linea por linea
+        char linea[200]="";
+        while(fgets(linea, 200, archivo) != NULL){
+            //printf("%s||\n", linea);
+            analizador_general(linea);
+        }
+        /*
+        leer caracter por caracter
         caracter = fgetc(archivo);
         while(caracter != EOF){
             analizador_general(caracter);
             caracter = fgetc(archivo);
         }
-
+        */
         fclose(archivo);
     }
 }
 
-/**/
 void analizar_linea(char* entrada){
     char e[200]="";
     fgets(e, 200, stdin);
@@ -45,6 +52,11 @@ void analizar_linea(char* entrada){
     }
 }
 
-void analizador_general(int caracter){
-    printf("%c\n", caracter);
+void analizador_general(char linea[]){
+    int c, pos=0;
+    while(linea[pos]!=NULL){
+        c = linea[pos];
+        printf("%c\n", c);
+        pos++;
+    }
 }
