@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "utilidades.h"
+#include "analizador.h"
 
 void analizador_general(int caracter);
 
@@ -29,10 +30,9 @@ void analizar_archivo(){
     }
 }
 
+/**/
 void analizar_linea(char* entrada){
-    //char* e = (char*)malloc(200);
     char e[200]="";
-    //e="\n";
     fgets(e, 200, stdin);
     char linea[200];
     strcpy(linea, e);
