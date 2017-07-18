@@ -15,7 +15,7 @@ void analizar_archivo(){
 
     archivo = fopen(ruta, "r");
     if(archivo == NULL){
-        printf("\nNo existe el archivo en:\n%s", ruta);
+        printf("\nNo existe el archivo en:\n%s\n", ruta);
     }else{
         int caracter;
         printf("\nLeyendo el archivo...\n");
@@ -24,8 +24,9 @@ void analizar_archivo(){
             analizador_general(caracter);
             caracter = fgetc(archivo);
         }
+
+        fclose(archivo);
     }
-    fclose(archivo);
 }
 
 void analizar_linea(char* entrada){
@@ -38,7 +39,8 @@ void analizar_linea(char* entrada){
     int pos=0, c;
     while(linea[pos]!=NULL){
         c=linea[pos];
-        printf("%c\n", c);
+        analizador_general(c);
+        //printf("%c\n", c);
         pos++;
     }
 }

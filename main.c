@@ -12,21 +12,19 @@ int main()
 }
 
 void menu_general(){
-    int val=0;
+    int val;
     char* entrada = (char*)malloc(sizeof(char*));
     do{
         printf("MENU\n1. Linea de comando.\n2. Cargar Archivo.\n3. Salir\n#=>");
-
+        val=0;
         scanf("%i", &val);
         switch(val){
             case 1:
-                printf("\n=======case 1\n");
+                printf("\nIngresa un comando:\n");
                 fgets(entrada, 200, stdin);
                 analizar_linea(entrada);
-
             break;
             case 2:
-                printf("\n=======case 2\n");
                 analizar_archivo();
             break;
             case 3:
@@ -37,14 +35,9 @@ void menu_general(){
                 val=0;
             break;
         }
-        //val = 0;
     }while(val != 3);
     free(entrada);
 }
-
-
-
-
 
 
 
