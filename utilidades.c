@@ -18,14 +18,14 @@ int validar_nombre(char* nombre){
         caracter=a_nom[pos];
         switch(estado){
             case 0:
-                if(islower(caracter)){
+                if(isalpha(caracter)){
                     estado=1;
                 }else{
                     estado=99;
                 }
             break;
             case 1:
-                if(islower(caracter)){
+                if(isalpha(caracter)){
                     estado=1;
                 }else if(caracter=='_'){
                     estado=2;
@@ -77,7 +77,7 @@ int validar_nombre(char* nombre){
 
         if(estado==99){
             printf("\n==>Error:\n");
-            printf("El nombre: %s\n", nombre);
+            printf("El nombre: '%s'\n", nombre);
             printf("no cumple con los requisitos para ser valida.\n========\n");
             break;
         }
@@ -110,25 +110,27 @@ int validar_ruta_nombre(char* ruta){
                 }
             break;
             case 2:
-                if(islower(caracter)){
+                if(isalpha(caracter)){
                     estado=3;
                 }else{
                     estado=99;
                 }
             break;
             case 3:
-                if(islower(caracter) || isspace(caracter)){
+                if(isalpha(caracter)){
                     estado=3;
                 }else if(caracter=='/'){
                     estado=4;
                 }else if(caracter=='_'){
                     estado=6;
+                }else if(caracter=='.'){
+                    estado=8;
                 }else{
                     estado=99;
                 }
             break;
             case 4:
-                if(islower(caracter)){
+                if(isalpha(caracter)){
                     estado=3;
                 }else if(caracter=='"'){
                     estado=5;
@@ -138,8 +140,12 @@ int validar_ruta_nombre(char* ruta){
                 }
             break;
             case 5:
-                estado=99;
-                correcto=0;
+                if(a_ruta[pos+1]==NULL){
+                    correcto=1;
+                }else{
+                    estado=99;
+                    correcto=0;
+                }
             break;
             case 6:
                 if(isdigit(caracter)){
@@ -158,21 +164,21 @@ int validar_ruta_nombre(char* ruta){
                 }
             break;
             case 8:
-                if(strcmp("d", &caracter)==0){
+                if(strcmp("t", &caracter)==0){
                     estado=9;
                 }else{
                     estado=99;
                 }
             break;
             case 9:
-                if(strcmp("s", &caracter)==0){
+                if(strcmp("x", &caracter)==0){
                     estado=10;
                 }else{
                     estado=99;
                 }
             break;
             case 10:
-                if(strcmp("k", &caracter)==0){
+                if(strcmp("t", &caracter)==0){
                     estado=11;
                 }else{
                     estado=99;
@@ -199,4 +205,36 @@ int validar_ruta_nombre(char* ruta){
     }
 
     return correcto;
+}
+
+char* quitar_comillas(char* ruta){
+    char aruta[50];
+    strcpy(aruta, ruta);
+    int pos=0, caracter;
+    char* limpia="";
+    while(aruta[pos]!=NULL){
+        caracter=aruta[pos];
+        if(caracter!='"'){
+            limpia=concatenar(limpia, &caracter);
+        }
+        pos++;
+    }
+    return limpia;
+}
+
+char* quitar_salto(char* entrada){
+    char aentrada[200];
+    strcpy(aentrada, entrada);
+    int pos=0, caracter, detener=0;
+    char* limpia="";
+    while(detener==0){
+        caracter=aentrada[pos];
+        if(caracter!='\n'){
+            limpia=concatenar(limpia, &caracter);
+        }else{
+            detener=1;
+        }
+        pos++;
+    }
+    return limpia;
 }
