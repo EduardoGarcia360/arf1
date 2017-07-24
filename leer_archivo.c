@@ -7,7 +7,6 @@
 #include <ctype.h>
 
 void abrir_archivo(char* ruta);
-void temporal(char linea[]);
 
 /*recibe: exec $path=>"/home/algo/archivo.sh"
 lo separa en:
@@ -100,14 +99,6 @@ void abrir_archivo(char* ruta){
     }
 }
 
-void temporal(char linea[]){
-    int caracter, pos=0, estado=0, correcto=0;
-    while(linea[pos]!=NULL){
-        caracter = linea[pos];
-        printf("%c\n", caracter);
-        pos++;
-    }
-}
 
 
 

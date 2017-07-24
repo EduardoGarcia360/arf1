@@ -19,6 +19,8 @@ void menu_general(){
         printf("\n*Introduce linea de comando. (max. 200 caracteres):\n");
         printf("*Para cerrar la aplicacion escriba: salir\n");
         fgets(entrada, 200, stdin);
+        if(strcmp(entrada, "\n")==0)
+            fgets(entrada, 200, stdin);
         if(strcasecmp(entrada, "salir\n")==0)
             break;
         analizar_linea(entrada);
@@ -58,7 +60,13 @@ void analizar_linea(char* entrada){
         case 1:
             if(strcasecmp("exec", comando)==0){
                 printf("\nde var. comando: %s\n", comando);
-                validar_exec(entrada);
+                int o = confirmacion("¿Abrir archivo?");
+                if(o==1){
+                    validar_exec(entrada);
+                }else{
+                    printf("ok\n");
+                }
+                fflush(stdin);
             }else{
                 analizador_general(linea);
             }
@@ -66,6 +74,7 @@ void analizar_linea(char* entrada){
     }
 }
 
+//exec $path=>"/home/eduardo/Documentos/ejemplo.txt"
 
 
 

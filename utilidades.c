@@ -238,3 +238,11 @@ char* quitar_salto(char* entrada){
     }
     return limpia;
 }
+
+int confirmacion(char* mensaje){
+    int d;
+    printf("%s\n", mensaje);
+    printf("Ingrese:\n1. Aceptar\t2. Cancelar\nEleccion: ");
+    scanf("%d", &d);
+    return d;
+}
